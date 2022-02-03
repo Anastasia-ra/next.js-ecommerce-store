@@ -1,4 +1,4 @@
-const productsDatabase = [
+const adventuresDatabase = [
   {
     id: '1',
     name: 'Antarctic Expedition',
@@ -41,4 +41,4 @@ const productsDatabase = [
   },
 ];
 
-export default productsDatabase;
+export default adventuresDatabase;
