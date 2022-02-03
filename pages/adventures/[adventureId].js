@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import Layout from '../../components/Layout';
 import adventuresDatabase from '../../util/database';
 
@@ -9,6 +10,11 @@ export default function SingleAnimal(props) {
         <title>{`${props.adventure.name} - ${props.adventure.duration} days`}</title>
       </Head>
       <h1>{`${props.adventure.duration} days ${props.adventure.name}`}</h1>
+      <Image
+        src={`/adventures/resized-singlePage/${props.adventure.id}.jpg`}
+        width="500"
+        height="333"
+      />
     </Layout>
   );
 }
