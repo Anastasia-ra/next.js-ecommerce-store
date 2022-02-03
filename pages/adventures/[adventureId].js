@@ -15,6 +15,7 @@ export default function SingleAnimal(props) {
         width="500"
         height="333"
       />
+      <div data-test-id="product-price"> Price: {props.adventure.price}</div>
     </Layout>
   );
 }
