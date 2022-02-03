@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Layout from '../../components/Layout';
 import adventuresDatabase from '../../util/database';
 
-export default function SingleAnimal(props) {
+export default function SingleAdventure(props) {
   return (
     <Layout>
       <Head>
