@@ -40,3 +40,5 @@ const productsDatabase = [
     description: 'At least no one will bother you',
   },
 ];
+
+export default productsDatabase;
