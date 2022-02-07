@@ -1,11 +1,31 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import Layout from '../components/Layout';
-
+import { getParsedCookie, setParsedCookie } from '../util/cookies';
 import adventuresDatabase from '../util/database';
 
 export default function Adventures(props) {
+  const [cartList, setCartList] = useState(props.addedAdventures);
+
+  function toggleAdventureCart(id) {
+    const cookieValue = getParsedCookie('addedAdventures') || [];
+    const existIdOnArray = cookieValue.some((cookieObject) => {
+      return cookieObject.id === id;
+    });
+
+    let newCookie;
+    if (existIdOnArray) {
+      newCookie = cookieValue.filter((cookieObject) => cookieObject.id !== id);
+    } else {
+      newCookie = [...cookieValue, { id: id }];
+    }
+
+    setCartList(newCookie);
+    setParsedCookie('addedAdventures', newCookie);
+  }
+
   return (
     <Layout>
       <Head>
@@ -14,6 +34,9 @@ export default function Adventures(props) {
       <h1>Choose your adventure</h1>
 
       {props.adventures.map((adventure) => {
+        const adventureIsAdded = cartList.some((addedObject) => {
+          return addedObject.id === adventure.id;
+        });
         return (
           <div key={`adventure-${adventure.id}`}>
             <Link href={`/adventures/${adventure.id}`}>
@@ -27,6 +50,9 @@ export default function Adventures(props) {
                 {adventure.name}
               </a>
             </Link>
+            <button onClick={() => toggleAdventureCart(adventure.id)}>
+              {adventureIsAdded ? 'Remove from cart' : 'Add to cart'}
+            </button>
           </div>
         );
       })}
@@ -34,10 +60,13 @@ export default function Adventures(props) {
   );
 }
 
-export function getServerSideProps() {
+export function getServerSideProps(context) {
+  const addedAdventuresOnCookies = context.req.cookies.addedAdventures || '[]';
+  const addedAdventures = JSON.parse(addedAdventuresOnCookies);
   return {
     props: {
       adventures: adventuresDatabase,
+      addedAdventures: addedAdventures,
     },
   };
 }
