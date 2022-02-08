@@ -15,18 +15,18 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
-export async function getAnimals() {
-  const animals = await sql`
-    SELECT * FROM animals;
+export async function getAdventures() {
+  const adventures = await sql`
+    SELECT * FROM adventures;
   `;
-  return animals.map((animal) => camelcaseKeys(animal));
+  return adventures.map((adventure) => camelcaseKeys(adventure));
 }
 
-export async function getAnimalById(id) {
-  const [animal] = await sql`
-    SELECT * FROM animals WHERE id = ${id};
+export async function getAdventureById(id) {
+  const [adventure] = await sql`
+    SELECT * FROM adventures WHERE id = ${id};
   `;
-  return camelcaseKeys(animal);
+  return camelcaseKeys(adventure);
 }
 
 // const adventuresDatabase = [
