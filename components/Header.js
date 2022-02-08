@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { getParsedCookie, setParsedCookie } from '../util/cookies.js';
 
 const headerStyle = css`
   display: flex;
@@ -10,6 +11,12 @@ const headerStyle = css`
 `;
 
 export default function Header() {
+  const cookieValue = getParsedCookie('cart') || [];
+  console.log('CookieValue', cookieValue);
+  const totalQuantity = cookieValue.reduce((previousValue, currentValue) => {
+    return previousValue + currentValue.items;
+  }, 0);
+  console.log('totalQuantity', totalQuantity);
   return (
     <header css={headerStyle}>
       <Image src="/logo.png" width="150" height="56" />
@@ -20,8 +27,19 @@ export default function Header() {
         <a>Adventures</a>
       </Link>
       <Link href="/shoppingcart">
-        <a>Shopping Cart</a>
+        <a>Shopping Cart ({totalQuantity})</a>
       </Link>
     </header>
   );
+}
+
+export function getServerSideProps(context) {
+  const cartOnCookies = context.req.cookies.cart || '[]';
+  const cart = JSON.parse(cartOnCookies);
+
+  return {
+    props: {
+      addedAdventures: cart,
+    },
+  };
 }
