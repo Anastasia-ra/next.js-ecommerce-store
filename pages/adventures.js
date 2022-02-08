@@ -7,10 +7,10 @@ import { getParsedCookie, setParsedCookie } from '../util/cookies';
 import adventuresDatabase from '../util/database';
 
 export default function Adventures(props) {
-  const [cartList, setCartList] = useState(props.addedAdventures);
+  const [cartList, setCartList] = useState(props.cart);
 
   function toggleAdventureCart(id) {
-    const cookieValue = getParsedCookie('addedAdventures') || [];
+    const cookieValue = getParsedCookie('cart') || [];
     const existIdOnArray = cookieValue.some((cookieObject) => {
       return cookieObject.id === id;
     });
@@ -19,11 +19,11 @@ export default function Adventures(props) {
     if (existIdOnArray) {
       newCookie = cookieValue.filter((cookieObject) => cookieObject.id !== id);
     } else {
-      newCookie = [...cookieValue, { id: id }];
+      newCookie = [...cookieValue, { id: id, items: 1 }];
     }
-
+    console.log(newCookie);
     setCartList(newCookie);
-    setParsedCookie('addedAdventures', newCookie);
+    setParsedCookie('cart', newCookie);
   }
 
   return (
@@ -61,12 +61,14 @@ export default function Adventures(props) {
 }
 
 export function getServerSideProps(context) {
-  const addedAdventuresOnCookies = context.req.cookies.addedAdventures || '[]';
-  const addedAdventures = JSON.parse(addedAdventuresOnCookies);
+  const cartOnCookies = context.req.cookies.cart || '[]';
+  const cart = JSON.parse(cartOnCookies);
+
+  console.log(cart);
   return {
     props: {
       adventures: adventuresDatabase,
-      addedAdventures: addedAdventures,
+      cart,
     },
   };
 }
