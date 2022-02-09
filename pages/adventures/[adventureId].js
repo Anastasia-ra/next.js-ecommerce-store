@@ -2,8 +2,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
 import Layout from '../../components/Layout';
-import adventuresDatabase from '../../util/database';
+// import adventuresDatabase from '../../util/database';
 import { getParsedCookie, setParsedCookie } from '../../util/cookies.js';
+import { getAdventureById } from '../../util/database';
 
 export default function SingleAdventure(props) {
   const [cartList, setCartList] = useState(props.cart);
@@ -32,6 +33,8 @@ export default function SingleAdventure(props) {
   const currentAdventureObject = cartList.find(
     (cookieObject) => cookieObject.id === props.adventure.id,
   );
+
+  console.log('currentAdventureObject', currentAdventureObject);
 
   function itemsCountUp() {
     const cookieValue = getParsedCookie('cart') || [];
@@ -90,20 +93,23 @@ export default function SingleAdventure(props) {
   );
 }
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   const adventureId = context.query.adventureId;
 
-  const matchingAdventure = adventuresDatabase.find((adventure) => {
-    return adventure.id === adventureId;
-  });
+  // const matchingAdventure = adventuresDatabase.find((adventure) => {
+  //   return adventure.id === adventureId;
+  // });
 
   const cartOnCookies = context.req.cookies.cart || '[]';
   const cart = JSON.parse(cartOnCookies);
 
+  const adventure = await getAdventureById(adventureId);
+
   return {
     props: {
-      adventure: matchingAdventure,
+      // adventure: matchingAdventure,
       cart,
+      adventure,
     },
   };
 }

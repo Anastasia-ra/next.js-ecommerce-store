@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { css } from '@emotion/react';
-import { getParsedCookie, setParsedCookie } from '../util/cookies.js';
+import { getParsedCookie } from '../util/cookies.js';
 
 const headerStyle = css`
   display: flex;
@@ -39,7 +39,7 @@ export function getServerSideProps(context) {
 
   return {
     props: {
-      addedAdventures: cart,
+      cart,
     },
   };
 }

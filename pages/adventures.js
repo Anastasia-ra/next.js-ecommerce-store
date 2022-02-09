@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { getParsedCookie, setParsedCookie } from '../util/cookies';
-import adventuresDatabase from '../util/database';
+// import adventuresDatabase from '../util/database';
+import { getAdventures } from '../util/database';
 
 export default function Adventures(props) {
   const [cartList, setCartList] = useState(props.cart);
+
+  // console.log('props.adventures', props.adventures);
 
   function toggleAdventureCart(id) {
     const cookieValue = getParsedCookie('cart') || [];
@@ -37,6 +40,7 @@ export default function Adventures(props) {
         const adventureIsAdded = cartList.some((addedObject) => {
           return addedObject.id === adventure.id;
         });
+
         return (
           <div key={`adventure-${adventure.id}`}>
             <Link href={`/adventures/${adventure.id}`}>
@@ -60,15 +64,36 @@ export default function Adventures(props) {
   );
 }
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   const cartOnCookies = context.req.cookies.cart || '[]';
   const cart = JSON.parse(cartOnCookies);
 
-  console.log(cart);
+  const adventures = await getAdventures();
+  console.log('adventures', adventures);
+
+  console.log('cart', cart);
+  console.log('cartoncookies', cartOnCookies);
+  // console.log('typeOf id', typeof adventures[0].id);
+
+  // const toString = adventures.map((adventure) => {
+  //   return {
+  //     id: adventure.id.toString(),
+  //     name: adventure.name,
+  //     type: adventure.type,
+  //     duration: adventure.duration,
+  //     price: adventure.price,
+  //     description: adventure.description,
+  //   };
+  // });
+
+  // console.log('toString', toString);
+  // console.log('typeOf to string', typeof toString[0].id);
+
   return {
     props: {
-      adventures: adventuresDatabase,
+      // adventures: adventuresDatabase,
       cart,
+      adventures,
     },
   };
 }

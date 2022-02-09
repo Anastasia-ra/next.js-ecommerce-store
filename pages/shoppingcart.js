@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import { getParsedCookie, setParsedCookie } from '../util/cookies.js';
-import adventuresDatabase from '../util/database';
+// import adventuresDatabase from '../util/database';
+import { getAdventures } from '../util/database';
 
 export default function ShoppingCart(props) {
   const cookieValue = getParsedCookie('cart') || [];
@@ -48,14 +49,17 @@ export default function ShoppingCart(props) {
   );
 }
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   const cartOnCookies = context.req.cookies.cart || '[]';
   const cart = JSON.parse(cartOnCookies);
 
+  const adventures = await getAdventures();
+
   return {
     props: {
-      adventures: adventuresDatabase,
+      // adventures: adventuresDatabase,
       addedAdventures: cart,
+      adventures: adventures,
     },
   };
 }

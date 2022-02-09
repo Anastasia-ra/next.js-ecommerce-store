@@ -1,4 +1,4 @@
-import camelcaseKeys from 'camelcase-keys';
+// import camelcaseKeys from 'camelcase-keys';
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
 
@@ -19,14 +19,29 @@ export async function getAdventures() {
   const adventures = await sql`
     SELECT * FROM adventures;
   `;
-  return adventures.map((adventure) => camelcaseKeys(adventure));
+
+  const adventurestoString = adventures.map((adventure) => {
+    return {
+      id: adventure.id.toString(),
+      name: adventure.name,
+      type: adventure.type,
+      duration: adventure.duration,
+      price: adventure.price,
+      description: adventure.description,
+    };
+  });
+
+  return adventurestoString;
 }
 
 export async function getAdventureById(id) {
   const [adventure] = await sql`
     SELECT * FROM adventures WHERE id = ${id};
   `;
-  return camelcaseKeys(adventure);
+  adventure.id = adventure.id.toString();
+  console.log('adventure async', adventure);
+  console.log('adventure typeOf', typeof adventure.id);
+  return adventure;
 }
 
 // const adventuresDatabase = [
