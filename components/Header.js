@@ -7,20 +7,26 @@ const headerStyle = css`
   color: white;
   display: flex;
   justify-content: space-between;
-  font-family: 'Lucida console', 'Arial';
+  font-family: 'Candara', 'Arial';
   background-color: rgba(88, 125, 184, 0.3);
   /* opacity: 0.1; */
 `;
 
 const linksStyle = css`
   display: flex;
-  align-content: flex-start;
+  align-content: stretch;
   justify-content: flex-end;
+  cursor: pointer;
   a {
     margin-right: 20px;
-    margin-top: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
     font-weight: bold;
     font-size: 1.2rem;
+  }
+  a:hover {
+    /* font-size: 2rem;
+    transition: 0.3s; */
   }
 `;
 
@@ -33,12 +39,14 @@ const logoStyle = css`
   display: flex;
   /* width: auto; */
   width: 180px;
+  cursor: pointer;
 `;
 
 const textStyle = css`
   line-height: 30%;
   margin-left: 0.5rem;
   font-weight: bold;
+  cursor: pointer;
 `;
 
 const imageStyle = css`

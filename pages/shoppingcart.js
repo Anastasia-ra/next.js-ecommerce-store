@@ -1,8 +1,15 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
+import { css } from '@emotion/react';
 import { getParsedCookie, setParsedCookie } from '../util/cookies.js';
 // import adventuresDatabase from '../util/database';
 import { getAdventures } from '../util/database';
+
+const cartContentStyle = css``;
+
+const cartItemStyle = css`
+  margin: 0.5rem;
+`;
 
 export default function ShoppingCart(props) {
   const cookieValue = getParsedCookie('cart') || [];
@@ -34,16 +41,27 @@ export default function ShoppingCart(props) {
         <title>Shopping Cart</title>
       </Head>
       <h1>Your next adventures </h1>
-      {newCookie.map((singleItem) => {
-        const totalItemPrice = singleItem.price * singleItem.items;
-        return (
-          <div key={singleItem.id}>
-            {' '}
-            id: {singleItem.id} name:{singleItem.name} price: {singleItem.price}{' '}
-            Quantity: {singleItem.items} total price item: {totalItemPrice}
-          </div>
-        );
-      })}
+      <div css={cartContentStyle}>
+        <table>
+          <tr>
+            <th>Adventure</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+          </tr>
+          {newCookie.map((singleItem) => {
+            const totalItemPrice = singleItem.price * singleItem.items;
+            return (
+              <tr css={cartItemStyle} key={singleItem.id}>
+                <th>{singleItem.name}</th>
+                <th> {singleItem.price}</th>
+                <th> {singleItem.items}</th>
+                <th> {totalItemPrice} </th>
+              </tr>
+            );
+          })}
+        </table>
+      </div>
       <div>Total Price: {totalPrice}</div>
     </Layout>
   );

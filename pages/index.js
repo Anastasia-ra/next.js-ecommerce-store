@@ -13,7 +13,8 @@ const layoutStyle = css`
 `;
 
 const headingStyle = css`
-  font-family: 'Lucida console', 'Arial';
+  font-family: 'Candara', 'Arial';
+  font-size: 4rem;
   color: white;
   position: relative;
   top: 50vh;
@@ -26,8 +27,9 @@ export default function Home() {
         <Head>
           <title>Homepage</title>
         </Head>
-
-        <h1 css={headingStyle}>Find your next adventure</h1>
+        <div>
+          <h1 css={headingStyle}>Find your next adventure</h1>
+        </div>
       </Layout>
     </div>
   );
