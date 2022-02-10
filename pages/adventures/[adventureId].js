@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useState } from 'react';
 import Layout from '../../components/Layout';
+import Link from 'next/link';
 // import adventuresDatabase from '../../util/database';
 import { getParsedCookie, setParsedCookie } from '../../util/cookies.js';
 import { getAdventureById } from '../../util/database';
@@ -19,7 +20,7 @@ export default function SingleAdventure(props) {
     if (existIdOnArray) {
       newCookie = cookieValue.filter((cookieObject) => cookieObject.id !== id);
     } else {
-      newCookie = [...cookieValue, { id: id, items: 1 }];
+      newCookie = [...cookieValue, { id: id, quantity: 1 }];
     }
     console.log(newCookie);
     setCartList(newCookie);
@@ -36,11 +37,11 @@ export default function SingleAdventure(props) {
 
   console.log('currentAdventureObject', currentAdventureObject);
 
-  function itemsCountUp() {
+  function quantityCountUp() {
     const cookieValue = getParsedCookie('cart') || [];
     const newCookie = cookieValue.map((cookieObject) => {
       if (cookieObject.id === props.adventure.id) {
-        return { ...cookieObject, items: cookieObject.items + 1 };
+        return { ...cookieObject, quantity: cookieObject.quantity + 1 };
       } else {
         return cookieObject;
       }
@@ -50,14 +51,14 @@ export default function SingleAdventure(props) {
     setParsedCookie('cart', newCookie);
   }
 
-  function itemsCountDown() {
+  function quantityCountDown() {
     const cookieValue = getParsedCookie('cart') || [];
     const newCookie = cookieValue.map((cookieObject) => {
       if (cookieObject.id === props.adventure.id) {
-        if (cookieObject.items === 1) {
+        if (cookieObject.quantity === 1) {
           return cookieObject;
         }
-        return { ...cookieObject, items: cookieObject.items - 1 };
+        return { ...cookieObject, quantity: cookieObject.quantity - 1 };
       } else {
         return cookieObject;
       }
@@ -73,6 +74,9 @@ export default function SingleAdventure(props) {
         <title>{`${props.adventure.name} - ${props.adventure.duration} days`}</title>
       </Head>
       <h1>{`${props.adventure.duration} days ${props.adventure.name}`}</h1>
+      <Link href="/adventures">
+        <a>Back to all adventures</a>
+      </Link>
       <Image
         src={`/adventures/resized-singlePage/${props.adventure.id}.jpg`}
         width="500"
@@ -84,9 +88,9 @@ export default function SingleAdventure(props) {
       </button>
       {currentAdventureObject && (
         <div>
-          <button onClick={() => itemsCountUp()}>+ </button>
-          {currentAdventureObject.items}
-          <button onClick={() => itemsCountDown()}>- </button>
+          <button onClick={() => quantityCountUp()}>+ </button>
+          {currentAdventureObject.quantity}
+          <button onClick={() => quantityCountDown()}>- </button>
         </div>
       )}
     </Layout>

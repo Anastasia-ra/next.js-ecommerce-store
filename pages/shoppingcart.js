@@ -30,7 +30,7 @@ export default function ShoppingCart(props) {
   setParsedCookie('cart', newCookie);
 
   const totalPrice = newCookie.reduce((previousValue, currentValue) => {
-    return previousValue + currentValue.price * currentValue.items;
+    return previousValue + currentValue.price * currentValue.quantity;
   }, 0);
 
   console.log('totalPrice', totalPrice);
@@ -50,12 +50,12 @@ export default function ShoppingCart(props) {
             <th>Total Price</th>
           </tr>
           {newCookie.map((singleItem) => {
-            const totalItemPrice = singleItem.price * singleItem.items;
+            const totalItemPrice = singleItem.price * singleItem.quantity;
             return (
               <tr css={cartItemStyle} key={singleItem.id}>
                 <th>{singleItem.name}</th>
                 <th> {singleItem.price}</th>
-                <th> {singleItem.items}</th>
+                <th> {singleItem.quantity}</th>
                 <th> {totalItemPrice} </th>
               </tr>
             );

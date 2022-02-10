@@ -58,7 +58,7 @@ export default function Header() {
   const cookieValue = getParsedCookie('cart') || [];
   console.log('CookieValue', cookieValue);
   const totalQuantity = cookieValue.reduce((previousValue, currentValue) => {
-    return previousValue + currentValue.items;
+    return previousValue + currentValue.quantity;
   }, 0);
   console.log('totalQuantity', totalQuantity);
   return (

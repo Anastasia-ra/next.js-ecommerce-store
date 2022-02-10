@@ -66,7 +66,7 @@ export default function Adventures(props) {
     if (existIdOnArray) {
       newCookie = cookieValue.filter((cookieObject) => cookieObject.id !== id);
     } else {
-      newCookie = [...cookieValue, { id: id, items: 1 }];
+      newCookie = [...cookieValue, { id: id, quantity: 1 }];
     }
     console.log(newCookie);
     setCartList(newCookie);
