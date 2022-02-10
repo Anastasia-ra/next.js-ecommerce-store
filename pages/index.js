@@ -7,9 +7,16 @@ const layoutStyle = css`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-image: url(/background-homepage2.jpg);
+  background-image: url(/joshua-earle--87JyMb9ZfU-unsplash.jpg);
   background-size: cover;
-  background-position: top 20px;
+  background-position: center;
+`;
+
+const headingStyle = css`
+  font-family: 'Lucida console', 'Arial';
+  color: white;
+  position: relative;
+  top: 50vh;
 `;
 
 export default function Home() {
@@ -20,7 +27,7 @@ export default function Home() {
           <title>Homepage</title>
         </Head>
 
-        <h1>Find your next adventure</h1>
+        <h1 css={headingStyle}>Find your next adventure</h1>
       </Layout>
     </div>
   );

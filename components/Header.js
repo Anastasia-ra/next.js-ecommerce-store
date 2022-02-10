@@ -4,10 +4,46 @@ import { css } from '@emotion/react';
 import { getParsedCookie } from '../util/cookies.js';
 
 const headerStyle = css`
+  color: white;
   display: flex;
-  align-content: center;
-  justify-content: center;
-  background-color: #6497bb;
+  justify-content: space-between;
+  font-family: 'Lucida console', 'Arial';
+  background-color: rgba(88, 125, 184, 0.3);
+  /* opacity: 0.1; */
+`;
+
+const linksStyle = css`
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-end;
+  a {
+    margin-right: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+`;
+
+const linkStyle = css`
+  margin-right: 20px;
+  margin-top: 20px;
+`;
+
+const logoStyle = css`
+  display: flex;
+  /* width: auto; */
+  width: 180px;
+`;
+
+const textStyle = css`
+  line-height: 30%;
+  margin-left: 0.5rem;
+  font-weight: bold;
+`;
+
+const imageStyle = css`
+  max-width: 100%;
+  height: auto;
 `;
 
 export default function Header() {
@@ -19,16 +55,33 @@ export default function Header() {
   console.log('totalQuantity', totalQuantity);
   return (
     <header css={headerStyle}>
-      <Image src="/logo.png" width="150" height="56" />
       <Link href="/">
-        <a>Home</a>
+        <a css={logoStyle}>
+          <div>
+            <Image
+              src="/LogoMakr-8syYNt.png"
+              width="50px"
+              height="50px"
+              css={imageStyle}
+            />
+          </div>
+          <span css={textStyle}>
+            <p>Unique</p>
+            <p>Adventures</p>
+          </span>
+        </a>
       </Link>
-      <Link href="/adventures">
-        <a>Adventures</a>
-      </Link>
-      <Link href="/shoppingcart">
-        <a>Shopping Cart ({totalQuantity})</a>
-      </Link>
+      <div css={linksStyle}>
+        <Link href="/">
+          <a>Home</a>
+        </Link>
+        <Link href="/adventures">
+          <a>Adventures</a>
+        </Link>
+        <Link href="/shoppingcart">
+          <a>Shopping Cart ({totalQuantity})</a>
+        </Link>
+      </div>
     </header>
   );
 }
