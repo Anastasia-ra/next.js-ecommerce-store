@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
+import Link from 'next/link';
 
 export default function Checkout() {
   return (
@@ -52,8 +53,11 @@ export default function Checkout() {
           Security code:
           <input type="number" required />
         </label>
-        {/* <input type="submit">Submit</input>
-        <input type="reset">Reset</input> */}
+        <Link href="thankyou">
+          <a>
+            <button data-test-id="checkout-confirm-order">Submit</button>
+          </a>
+        </Link>
       </div>
     </Layout>
   );

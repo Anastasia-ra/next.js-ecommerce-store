@@ -79,7 +79,7 @@ export default function Header() {
           </span>
         </a>
       </Link>
-      <div css={linksStyle}>
+      <div css={linksStyle} data-test-id="cart-link">
         <Link href="/">
           <a>Home</a>
         </Link>
@@ -87,7 +87,9 @@ export default function Header() {
           <a>Adventures</a>
         </Link>
         <Link href="/shoppingcart">
-          <a>Shopping Cart ({totalQuantity})</a>
+          <a data-test-id="cart-count">
+            Shopping Cart ({isNaN(totalQuantity) ? '0' : totalQuantity})
+          </a>
         </Link>
       </div>
     </header>

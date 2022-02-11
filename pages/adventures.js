@@ -49,12 +49,11 @@ const adventureButtonStyle = css`
   border: none;
   padding: 5px 8px;
   cursor: pointer;
+  font-family: 'Candara', 'Arial';
 `;
 
 export default function Adventures(props) {
   const [cartList, setCartList] = useState(props.cart);
-
-  // console.log('props.adventures', props.adventures);
 
   function toggleAdventureCart(id) {
     const cookieValue = getParsedCookie('cart') || [];
@@ -88,13 +87,16 @@ export default function Adventures(props) {
           return (
             <div css={singleAdventureStyle} key={`adventure-${adventure.id}`}>
               <Link href={`/adventures/${adventure.id}`}>
-                <a css={imageTextStyle}>
+                <a
+                  css={imageTextStyle}
+                  data-test-id={`product-${adventure.id}`}
+                >
                   {' '}
                   <Image
                     css={imageStyle}
-                    src={`/adventures/resized-mainPage/${adventure.id}.jpg`}
-                    width="300"
-                    height="200"
+                    src={`/adventures-img/${adventure.id}.jpg`}
+                    width="280"
+                    height="280"
                   />
                   <span css={adventureNameStyle}> {adventure.name} </span>
                 </a>
@@ -103,9 +105,7 @@ export default function Adventures(props) {
                 css={adventureButtonStyle}
                 onClick={() => toggleAdventureCart(adventure.id)}
               >
-                {adventureIsAdded
-                  ? 'Remove this adventure'
-                  : 'Add this adventure ✈'}
+                {adventureIsAdded ? 'Remove' : 'Add to cart ✈'}
               </button>
             </div>
           );
@@ -124,21 +124,6 @@ export async function getServerSideProps(context) {
 
   console.log('cart', cart);
   console.log('cartoncookies', cartOnCookies);
-  // console.log('typeOf id', typeof adventures[0].id);
-
-  // const toString = adventures.map((adventure) => {
-  //   return {
-  //     id: adventure.id.toString(),
-  //     name: adventure.name,
-  //     type: adventure.type,
-  //     duration: adventure.duration,
-  //     price: adventure.price,
-  //     description: adventure.description,
-  //   };
-  // });
-
-  // console.log('toString', toString);
-  // console.log('typeOf to string', typeof toString[0].id);
 
   return {
     props: {

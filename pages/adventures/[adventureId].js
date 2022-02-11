@@ -133,9 +133,9 @@ export default function SingleAdventure(props) {
         <div css={imageStyle}>
           <Image
             data-test-id="product-image"
-            src={`/adventures/resized-singlePage/${props.adventure.id}.jpg`}
-            width="500"
-            height="333"
+            src={`/adventures-img/${props.adventure.id}.jpg`}
+            width="380"
+            height="380"
             css={imageStyle}
           />{' '}
         </div>
