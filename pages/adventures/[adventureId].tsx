@@ -71,7 +71,7 @@ type Props = {
 export default function SingleAdventure(props: Props) {
   const [cartList, setCartList] = useState(props.cart);
 
-  function toggleAdventureCart(id: string | number) {
+  function toggleAdventureCart(id: number) {
     const cookieValue = getParsedCookie('cart') || [];
     const existIdOnArray = cookieValue.some((cookieObject: CartItem) => {
       return cookieObject.id === id;
@@ -211,7 +211,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   let adventure;
   typeof adventureId === 'string'
-    ? (adventure = await getAdventureById(adventureId))
+    ? (adventure = await getAdventureById(parseInt(adventureId)))
     : (adventure = undefined);
 
   return {

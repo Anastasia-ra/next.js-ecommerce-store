@@ -14,7 +14,7 @@ export function getParsedCookie(key: string) {
 }
 
 export type CartItem = {
-  id: string;
+  id: number;
   quantity: number;
   name: string;
 };

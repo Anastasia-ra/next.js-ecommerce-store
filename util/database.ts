@@ -19,7 +19,7 @@ function connectOneTimeToDatabase() {
 const sql = connectOneTimeToDatabase();
 
 export type Adventure = {
-  id: number | string;
+  id: number;
   name: string;
   type: string;
   duration: number;
@@ -32,20 +32,20 @@ export async function getAdventures() {
     SELECT * FROM adventures;
   `;
 
-  adventures.forEach(
-    (adventure: Adventure) => (adventure.id = adventure.id.toString()),
-  );
+  // adventures.forEach(
+  //   (adventure: Adventure) => (adventure.id = adventure.id.toString()),
+  // );
 
   return adventures;
 }
 
-export async function getAdventureById(id: string) {
+export async function getAdventureById(id: number) {
   const [adventure] = await sql<[Adventure | undefined]>`
     SELECT * FROM adventures WHERE id = ${id};
   `;
-  if (adventure) {
-    adventure.id = adventure.id.toString();
-  }
+  // if (adventure) {
+  //   adventure.id = adventure.id.toString();
+  // }
   return adventure;
 }
 
