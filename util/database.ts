@@ -3,6 +3,10 @@ import postgres from 'postgres';
 
 config();
 
+declare module globalThis {
+  let postgresSqlClient: ReturnType<typeof postgres> | undefined;
+}
+
 function connectOneTimeToDatabase() {
   if (!globalThis.postgresSqlClient) {
     globalThis.postgresSqlClient = postgres();
@@ -14,21 +18,34 @@ function connectOneTimeToDatabase() {
 
 const sql = connectOneTimeToDatabase();
 
+export type Adventure = {
+  id: number | string;
+  name: string;
+  type: string;
+  duration: number;
+  price: number;
+  description: string;
+};
+
 export async function getAdventures() {
-  const adventures = await sql`
+  const adventures = await sql<Adventure[]>`
     SELECT * FROM adventures;
   `;
 
-  adventures.forEach((adventure) => (adventure.id = adventure.id.toString()));
+  adventures.forEach(
+    (adventure: Adventure) => (adventure.id = adventure.id.toString()),
+  );
 
   return adventures;
 }
 
-export async function getAdventureById(id) {
-  const [adventure] = await sql`
+export async function getAdventureById(id: string) {
+  const [adventure] = await sql<[Adventure | undefined]>`
     SELECT * FROM adventures WHERE id = ${id};
   `;
-  adventure.id = adventure.id.toString();
+  if (adventure) {
+    adventure.id = adventure.id.toString();
+  }
   return adventure;
 }
 
@@ -39,7 +56,7 @@ export async function getAdventureById(id) {
 //     type: 'Cruise',
 //     duration: '20',
 //     price: 50,
-//     description: `Let's see some penguins`,
+//     description: ` Meet at least six penguin species`,
 //   },
 //   {
 //     id: '2',
@@ -47,7 +64,7 @@ export async function getAdventureById(id) {
 //     type: 'Hike',
 //     duration: '14',
 //     price: 20,
-//     description: `Let's see some yaks`,
+//     description: `Cross the Himalayas in two weeks`,
 //   },
 //   {
 //     id: '3',
@@ -55,7 +72,7 @@ export async function getAdventureById(id) {
 //     type: 'Hike',
 //     duration: '50',
 //     price: 400,
-//     description: `The best view you've ever seen and amazing wildlife!`,
+//     description: `Nice view. Amazing wildlife!`,
 //   },
 //   {
 //     id: '4',
@@ -63,7 +80,7 @@ export async function getAdventureById(id) {
 //     type: 'Hike',
 //     duration: '10',
 //     price: 30,
-//     description: `I hope there are no crocodiles`,
+//     description: `Meeting the crocodiles`,
 //   },
 //   {
 //     id: '5',
@@ -71,7 +88,7 @@ export async function getAdventureById(id) {
 //     type: 'Cruise',
 //     duration: '70',
 //     price: 250,
-//     description: 'At least no one will bother you',
+//     description: 'It's so quiet down here. You'll want to stay forever. ',
 //   },
 // ];
 

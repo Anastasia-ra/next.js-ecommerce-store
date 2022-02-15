@@ -7,7 +7,7 @@ const layoutStyle = css`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-image: url(/joshua-earle--87JyMb9ZfU-unsplash.jpg);
+  background-image: url(/christopher-burns--jbsw_GUK74-unsplash.jpg);
   background-size: cover;
   background-position: center;
 `;

@@ -5,8 +5,14 @@ import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { css } from '@emotion/react';
 // import adventuresDatabase from '../../util/database';
-import { getParsedCookie, setParsedCookie } from '../../util/cookies.js';
-import { getAdventureById } from '../../util/database';
+import {
+  Cart,
+  CartItem,
+  getParsedCookie,
+  setParsedCookie,
+} from '../../util/cookies';
+import { Adventure, getAdventureById } from '../../util/database';
+import { GetServerSidePropsContext } from 'next';
 // import ChangeQuantity from '../../components/ChangeQuantity';
 
 const gridStyle = css`
@@ -57,18 +63,25 @@ const buttonPlusStyle = css``;
 
 const buttonMinusStyle = css``;
 
-export default function SingleAdventure(props) {
+type Props = {
+  adventure: Adventure;
+  cart: Cart;
+};
+
+export default function SingleAdventure(props: Props) {
   const [cartList, setCartList] = useState(props.cart);
 
-  function toggleAdventureCart(id) {
+  function toggleAdventureCart(id: string | number) {
     const cookieValue = getParsedCookie('cart') || [];
-    const existIdOnArray = cookieValue.some((cookieObject) => {
+    const existIdOnArray = cookieValue.some((cookieObject: CartItem) => {
       return cookieObject.id === id;
     });
 
     let newCookie;
     if (existIdOnArray) {
-      newCookie = cookieValue.filter((cookieObject) => cookieObject.id !== id);
+      newCookie = cookieValue.filter(
+        (cookieObject: CartItem) => cookieObject.id !== id,
+      );
     } else {
       newCookie = [...cookieValue, { id: id, quantity: 1 }];
     }
@@ -77,19 +90,19 @@ export default function SingleAdventure(props) {
     setParsedCookie('cart', newCookie);
   }
   // Check if adventure already in cart
-  const adventureIsAdded = cartList.some((addedObject) => {
+  const adventureIsAdded = cartList.some((addedObject: CartItem) => {
     return addedObject.id === props.adventure.id;
   });
 
   const currentAdventure = cartList.find(
-    (cookieObject) => cookieObject.id === props.adventure.id,
+    (cookieObject: CartItem) => cookieObject.id === props.adventure.id,
   );
 
   console.log('currentAdventureObject', currentAdventure);
 
   function quantityCountUp() {
     const cookieValue = getParsedCookie('cart') || [];
-    const newCookie = cookieValue.map((cookieObject) => {
+    const newCookie = cookieValue.map((cookieObject: CartItem) => {
       if (cookieObject.id === props.adventure.id) {
         return { ...cookieObject, quantity: cookieObject.quantity + 1 };
       } else {
@@ -103,7 +116,7 @@ export default function SingleAdventure(props) {
 
   function quantityCountDown() {
     const cookieValue = getParsedCookie('cart') || [];
-    const newCookie = cookieValue.map((cookieObject) => {
+    const newCookie = cookieValue.map((cookieObject: CartItem) => {
       if (cookieObject.id === props.adventure.id) {
         if (cookieObject.quantity === 1) {
           return cookieObject;
@@ -177,8 +190,11 @@ export default function SingleAdventure(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const adventureId = context.query.adventureId;
+
+  console.log('adventureId', adventureId);
+  console.log('typeOf adventureId', typeof adventureId);
 
   // const matchingAdventure = adventuresDatabase.find((adventure) => {
   //   return adventure.id === adventureId;
@@ -187,7 +203,16 @@ export async function getServerSideProps(context) {
   const cartOnCookies = context.req.cookies.cart || '[]';
   const cart = JSON.parse(cartOnCookies);
 
-  const adventure = await getAdventureById(adventureId);
+  // if (typeof adventureId === 'number') {
+  //   const adventure = await getAdventureById(adventureId);
+  // } else {
+  //   const adventure = undefined;
+  // }
+
+  let adventure;
+  typeof adventureId === 'string'
+    ? (adventure = await getAdventureById(adventureId))
+    : (adventure = undefined);
 
   return {
     props: {
