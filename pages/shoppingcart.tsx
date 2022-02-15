@@ -4,9 +4,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { css } from '@emotion/react';
-import { getParsedCookie, setParsedCookie } from '../util/cookies';
+import {
+  Cart,
+  CartItem,
+  getParsedCookie,
+  setParsedCookie,
+} from '../util/cookies';
 // import adventuresDatabase from '../util/database';
-import { getAdventures } from '../util/database';
+import { Adventure, getAdventures } from '../util/database';
+import { GetServerSidePropsContext } from 'next';
 
 const layoutStyle = css`
   background-image: url(/stacked-peaks-haikei.png);
@@ -18,18 +24,22 @@ const cartItemStyle = css`
   margin: 0.5rem;
 `;
 
-export default function ShoppingCart(props) {
+type Props = {
+  adventures: Adventure[];
+  cart: Cart;
+};
+
+export default function ShoppingCart(props: Props) {
   const [cartList, setCartList] = useState(props.cart);
 
   const cookieValue = getParsedCookie('cart') || [];
-  const newCookie = cookieValue.map((cookieObject) => {
+  const newCookie = cookieValue.map((cookieObject: CartItem) => {
     function getName() {
       for (const singleAdventure of props.adventures) {
         if (singleAdventure.id === cookieObject.id) {
           return {
             ...cookieObject,
             name: singleAdventure.name,
-            // price: singleAdventure.price,
           };
         }
       }
@@ -38,27 +48,35 @@ export default function ShoppingCart(props) {
   });
   setParsedCookie('cart', newCookie);
 
-  function getPrice(id) {
+  function getPrice(id: number) {
     for (const adventure of props.adventures) {
       if (id === adventure.id) {
         return adventure.price;
       }
+      //  else {
+      //   return 0;
+      // }
     }
   }
 
-  function getTotalPrice(cookie) {
-    const priceList = cookie.map(
-      (singleItem) => getPrice(singleItem.id) * singleItem.quantity,
-    );
+  function getTotalPrice(cookie: Cart) {
+    const priceList = cookie.map((singleItem) => {
+      const singleItemPrice = getPrice(singleItem.id);
+      if (singleItemPrice) {
+        return singleItemPrice * singleItem.quantity;
+      } else {
+        return 0;
+      }
+    });
     return priceList.reduce((previous, current) => previous + current, 0);
   }
 
   // Remove Adventure
-  function removeAdventureCart(id) {
+  function removeAdventureCart(id: number) {
     const cartValue = getParsedCookie('cart') || [];
 
     const updatedCookie = cartValue.filter(
-      (cookieObject) => cookieObject.id !== id,
+      (cookieObject: CartItem) => cookieObject.id !== id,
     );
 
     setParsedCookie('cart', updatedCookie);
@@ -67,9 +85,9 @@ export default function ShoppingCart(props) {
 
   // Change quantity in cart
 
-  function quantityCountUp(id) {
+  function quantityCountUp(id: number) {
     const cartValue = getParsedCookie('cart') || [];
-    const updatedCookie = cartValue.map((cookieObject) => {
+    const updatedCookie = cartValue.map((cookieObject: CartItem) => {
       if (cookieObject.id === id) {
         return { ...cookieObject, quantity: cookieObject.quantity + 1 };
       } else {
@@ -80,9 +98,9 @@ export default function ShoppingCart(props) {
     setParsedCookie('cart', updatedCookie);
   }
 
-  function quantityCountDown(id) {
+  function quantityCountDown(id: number) {
     const cartValue = getParsedCookie('cart') || [];
-    const updatedCookie = cartValue.map((cookieObject) => {
+    const updatedCookie = cartValue.map((cookieObject: CartItem) => {
       if (cookieObject.id === id) {
         if (cookieObject.quantity === 1) {
           return cookieObject;
@@ -112,10 +130,13 @@ export default function ShoppingCart(props) {
               <th>Quantity</th>
               <th>Total Price</th>
             </tr>
-            {newCookie.map((singleItem) => {
+            {newCookie.map((singleItem: CartItem) => {
               const itemPrice = getPrice(singleItem.id);
               console.log('price', itemPrice);
-              const totalItemPrice = itemPrice * singleItem.quantity;
+              let totalItemPrice;
+              itemPrice
+                ? (totalItemPrice = itemPrice * singleItem.quantity)
+                : (totalItemPrice = 0);
               console.log('total price', totalItemPrice);
               console.log('typeof', typeof totalItemPrice);
               return (
@@ -169,7 +190,7 @@ export default function ShoppingCart(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const cartOnCookies = context.req.cookies.cart || '[]';
   const cart = JSON.parse(cartOnCookies);
 
