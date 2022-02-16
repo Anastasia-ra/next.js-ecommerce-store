@@ -7,7 +7,7 @@ const layoutStyle = css`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-image: url(/christopher-burns--jbsw_GUK74-unsplash.jpg);
+  background-image: url(/toomas-tartes-Yizrl9N_eDA-unsplash.jpg);
   background-size: cover;
   background-position: center;
 `;
