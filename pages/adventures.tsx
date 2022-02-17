@@ -13,14 +13,20 @@ import {
 // import adventuresDatabase from '../util/database';
 import { Adventure, getAdventures } from '../util/database';
 import { GetServerSidePropsContext } from 'next';
+import toggleCart from '../util/toggleCart';
 // import { ReactComponent as Background } from '/stacked-peaks-haikei.svg';
 
 const layoutStyle = css`
-  background-image: url(/stacked-peaks-haikei.png);
+  /* background-image: url(/stacked-peaks-haikei.png); */
 `;
 
 const headerStyle = css`
   font-family: 'Candara', 'Arial';
+`;
+
+const textDescription = css`
+  width: 80vw;
+  margin: 0 auto;
 `;
 
 const flexStyle = css`
@@ -28,6 +34,7 @@ const flexStyle = css`
   flex-wrap: wrap;
   justify-content: space-between;
   font-family: 'Candara', 'Arial';
+  margin: 5vh 10vw;
 `;
 
 const singleAdventureStyle = css`
@@ -43,6 +50,7 @@ const imageTextStyle = css`
 
 const imageStyle = css`
   margin-bottom: 1.5rem;
+  border-radius: 2%;
 `;
 
 const adventureNameStyle = css`
@@ -71,23 +79,26 @@ type Props = {
 export default function Adventures(props: Props) {
   const [cartList, setCartList] = useState(props.cart);
 
-  function toggleAdventureCart(id: string | number) {
-    const cookieValue = getParsedCookie('cart') || [];
-    const existIdOnArray = cookieValue.some((cookieObject: CartItem) => {
-      return cookieObject.id === id;
-    });
+  const cookieCart: string = 'cart';
 
-    let newCookie;
-    if (existIdOnArray) {
-      newCookie = cookieValue.filter(
-        (cookieObject: CartItem) => cookieObject.id !== id,
-      );
-    } else {
-      newCookie = [...cookieValue, { id: id, quantity: 1 }];
-    }
-    console.log(newCookie);
+  function toggleAdventureCart(id: number, cookie: string) {
+    // const cookieValue = getParsedCookie('cart') || [];
+    // const existIdOnArray = cookieValue.some((cookieObject: CartItem) => {
+    //   return cookieObject.id === id;
+    // });
+
+    // let newCookie;
+    // if (existIdOnArray) {
+    //   newCookie = cookieValue.filter(
+    //     (cookieObject: CartItem) => cookieObject.id !== id,
+    //   );
+    // } else {
+    //   newCookie = [...cookieValue, { id: id, quantity: 1 }];
+    // }
+    // console.log(newCookie);
+    const newCookie = toggleCart(id, cookie);
     setCartList(newCookie);
-    setParsedCookie('cart', newCookie);
+    // setParsedCookie('cart', newCookie);
   }
 
   return (
@@ -96,8 +107,21 @@ export default function Adventures(props: Props) {
         <Head>
           <title>Adventures</title>
         </Head>
+        <div css={textDescription}>
+          <h1 css={headerStyle}>Choose your adventure</h1>
+          <p>
+            With more than 400 years of worldwide experience, Unique Adventures
+            is the most respected of adventure tour operators. Our range of
+            trekking, climbing, discovery, polar cruises and other adventures
+            spans the continents, the moon and the oceans, with more than 5
+            adventures to choose from. With an amazing variety of guided and
+            self-guided adventures on offer; from easy hiking trips on the Moon
+            to 3-week Himalayan treks, Antarctic expeditions and ocean tours.
+            Whatever your interests or aspirations, we’re sure to have an
+            adventure to suit you - the hardest part will be choosing one!
+          </p>
+        </div>
 
-        <h1 css={headerStyle}>Choose your adventure</h1>
         <div css={flexStyle}>
           {props.adventures.map((adventure) => {
             const adventureIsAdded = cartList.some((addedObject) => {
@@ -123,7 +147,7 @@ export default function Adventures(props: Props) {
                 </Link>
                 <button
                   css={adventureButtonStyle}
-                  onClick={() => toggleAdventureCart(adventure.id)}
+                  onClick={() => toggleAdventureCart(adventure.id, cookieCart)}
                 >
                   {adventureIsAdded ? 'Remove' : 'Add to cart ✈'}
                 </button>

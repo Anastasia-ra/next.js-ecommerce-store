@@ -8,11 +8,13 @@ import { css } from '@emotion/react';
 import {
   Cart,
   CartItem,
-  getParsedCookie,
-  setParsedCookie,
+  // getParsedCookie,
+  // setParsedCookie,
 } from '../../util/cookies';
 import { Adventure, getAdventureById } from '../../util/database';
 import { GetServerSidePropsContext } from 'next';
+import updateCount from '../../util/quantityHandler.js';
+import toggleCart from '../../util/toggleCart.js';
 // import ChangeQuantity from '../../components/ChangeQuantity';
 
 const gridStyle = css`
@@ -112,23 +114,12 @@ type Props = {
 export default function SingleAdventure(props: Props) {
   const [cartList, setCartList] = useState(props.cart);
 
-  function toggleAdventureCart(id: number) {
-    const cookieValue = getParsedCookie('cart') || [];
-    const existIdOnArray = cookieValue.some((cookieObject: CartItem) => {
-      return cookieObject.id === id;
-    });
+  const cookieCart: string = 'cart';
 
-    let newCookie;
-    if (existIdOnArray) {
-      newCookie = cookieValue.filter(
-        (cookieObject: CartItem) => cookieObject.id !== id,
-      );
-    } else {
-      newCookie = [...cookieValue, { id: id, quantity: 1 }];
-    }
-    console.log(newCookie);
+  // Add item to cart and toggle button
+  function toggleAdventureCart(id: number, cookie: string) {
+    const newCookie = toggleCart(id, cookie);
     setCartList(newCookie);
-    setParsedCookie('cart', newCookie);
   }
   // Check if adventure already in cart
   const adventureIsAdded = cartList.some((addedObject: CartItem) => {
@@ -141,35 +132,9 @@ export default function SingleAdventure(props: Props) {
 
   console.log('currentAdventureObject', currentAdventure);
 
-  function quantityCountUp() {
-    const cookieValue = getParsedCookie('cart') || [];
-    const newCookie = cookieValue.map((cookieObject: CartItem) => {
-      if (cookieObject.id === props.adventure.id) {
-        return { ...cookieObject, quantity: cookieObject.quantity + 1 };
-      } else {
-        return cookieObject;
-      }
-    });
-    console.log(newCookie);
+  function quantityHandler(cookie: string, increment: boolean) {
+    const newCookie = updateCount(cookie, props.adventure.id, increment);
     setCartList(newCookie);
-    setParsedCookie('cart', newCookie);
-  }
-
-  function quantityCountDown() {
-    const cookieValue = getParsedCookie('cart') || [];
-    const newCookie = cookieValue.map((cookieObject: CartItem) => {
-      if (cookieObject.id === props.adventure.id) {
-        if (cookieObject.quantity === 1) {
-          return cookieObject;
-        }
-        return { ...cookieObject, quantity: cookieObject.quantity - 1 };
-      } else {
-        return cookieObject;
-      }
-    });
-    console.log(newCookie);
-    setCartList(newCookie);
-    setParsedCookie('cart', newCookie);
   }
 
   return (
@@ -205,7 +170,7 @@ export default function SingleAdventure(props: Props) {
           <button
             css={buttonCartStyle}
             data-test-id="product-add-to-cart"
-            onClick={() => toggleAdventureCart(props.adventure.id)}
+            onClick={() => toggleAdventureCart(props.adventure.id, cookieCart)}
           >
             {adventureIsAdded ? 'Remove from cart' : 'Add to cart'}
           </button>
@@ -214,14 +179,19 @@ export default function SingleAdventure(props: Props) {
               <div data-test-id="product-quantity" css={buttonsWrapperStyle}>
                 <button
                   css={buttonMinusStyle}
-                  onClick={() => quantityCountDown()}
+                  onClick={() => {
+                    quantityHandler(cookieCart, false);
+                  }}
                 >
                   -{' '}
                 </button>
                 <span css={currentQuantityStyle}>
                   {currentAdventure.quantity}
                 </span>
-                <button css={buttonPlusStyle} onClick={() => quantityCountUp()}>
+                <button
+                  css={buttonPlusStyle}
+                  onClick={() => quantityHandler(cookieCart, true)}
+                >
                   +{' '}
                 </button>
               </div>

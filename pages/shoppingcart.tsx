@@ -13,6 +13,8 @@ import {
 // import adventuresDatabase from '../util/database';
 import { Adventure, getAdventures } from '../util/database';
 import { GetServerSidePropsContext } from 'next';
+import updateCount from '../util/quantityHandler.js';
+import getTotalPrice from '../util/calculateCartSum.js';
 
 const layoutStyle = css`
   /* background-image: url(/stacked-peaks-haikei.png); */
@@ -113,6 +115,10 @@ const totalPriceText = css`
   margin: 0 100px;
 `;
 
+const image = css`
+  border-radius: 10%;
+`;
+
 type Props = {
   adventures: Adventure[];
   cart: Cart;
@@ -121,7 +127,9 @@ type Props = {
 export default function ShoppingCart(props: Props) {
   const [cartList, setCartList] = useState(props.cart);
 
-  const cookieValue = getParsedCookie('cart') || [];
+  const cookieCart: string = 'cart';
+
+  const cookieValue = getParsedCookie(cookieCart) || [];
   const newCookie = cookieValue.map((cookieObject: CartItem) => {
     function getName() {
       for (const singleAdventure of props.adventures) {
@@ -135,72 +143,32 @@ export default function ShoppingCart(props: Props) {
     }
     return getName();
   });
-  setParsedCookie('cart', newCookie);
+  setParsedCookie(cookieCart, newCookie);
 
   function getPrice(id: number) {
     for (const adventure of props.adventures) {
       if (id === adventure.id) {
         return adventure.price;
       }
-      //  else {
-      //   return 0;
-      // }
     }
   }
-
-  function getTotalPrice(cookie: Cart) {
-    const priceList = cookie.map((singleItem) => {
-      const singleItemPrice = getPrice(singleItem.id);
-      if (singleItemPrice) {
-        return singleItemPrice * singleItem.quantity;
-      } else {
-        return 0;
-      }
-    });
-    return priceList.reduce((previous, current) => previous + current, 0);
-  }
-
   // Remove Adventure
   function removeAdventureCart(id: number) {
-    const cartValue = getParsedCookie('cart') || [];
+    const cartValue = getParsedCookie(cookieCart) || [];
 
     const updatedCookie = cartValue.filter(
       (cookieObject: CartItem) => cookieObject.id !== id,
     );
 
-    setParsedCookie('cart', updatedCookie);
+    setParsedCookie(cookieCart, updatedCookie);
     setCartList(updatedCookie);
   }
 
   // Change quantity in cart
 
-  function quantityCountUp(id: number) {
-    const cartValue = getParsedCookie('cart') || [];
-    const updatedCookie = cartValue.map((cookieObject: CartItem) => {
-      if (cookieObject.id === id) {
-        return { ...cookieObject, quantity: cookieObject.quantity + 1 };
-      } else {
-        return cookieObject;
-      }
-    });
-    setCartList(updatedCookie);
-    setParsedCookie('cart', updatedCookie);
-  }
-
-  function quantityCountDown(id: number) {
-    const cartValue = getParsedCookie('cart') || [];
-    const updatedCookie = cartValue.map((cookieObject: CartItem) => {
-      if (cookieObject.id === id) {
-        if (cookieObject.quantity === 1) {
-          return cookieObject;
-        }
-        return { ...cookieObject, quantity: cookieObject.quantity - 1 };
-      } else {
-        return cookieObject;
-      }
-    });
-    setCartList(updatedCookie);
-    setParsedCookie('cart', updatedCookie);
+  function quantityHandler(cookie: string, id, increment: boolean) {
+    const newCookie = updateCount(cookie, id, increment);
+    setCartList(newCookie);
   }
 
   return (
@@ -224,13 +192,10 @@ export default function ShoppingCart(props: Props) {
               </tr>
               {newCookie.map((singleItem: CartItem) => {
                 const itemPrice = getPrice(singleItem.id);
-                console.log('price', itemPrice);
                 let totalItemPrice;
                 itemPrice
                   ? (totalItemPrice = itemPrice * singleItem.quantity)
                   : (totalItemPrice = 0);
-                console.log('total price', totalItemPrice);
-                console.log('typeof', typeof totalItemPrice);
                 return (
                   <tr
                     css={cartItemStyle}
@@ -239,6 +204,7 @@ export default function ShoppingCart(props: Props) {
                   >
                     <th>
                       <Image
+                        css={image}
                         src={`/adventures-img/${singleItem.id}.jpg`}
                         width="100"
                         height="100"
@@ -250,14 +216,18 @@ export default function ShoppingCart(props: Props) {
                       {' '}
                       <button
                         css={changeQuantityButton}
-                        onClick={() => quantityCountDown(singleItem.id)}
+                        onClick={() =>
+                          quantityHandler(cookieCart, singleItem.id, false)
+                        }
                       >
                         -{' '}
                       </button>
                       <span css={itemQuantity}>{singleItem.quantity}</span>
                       <button
                         css={changeQuantityButton}
-                        onClick={() => quantityCountUp(singleItem.id)}
+                        onClick={() =>
+                          quantityHandler(cookieCart, singleItem.id, true)
+                        }
                       >
                         +{' '}
                       </button>
@@ -280,7 +250,7 @@ export default function ShoppingCart(props: Props) {
           </table>
           <div css={orderSection}>
             <div css={totalPriceText} data-test-id="cart-total">
-              Total Price: {getTotalPrice(newCookie)}
+              Total Price: {getTotalPrice(newCookie, props.adventures)}
             </div>
 
             <Link href="checkout">
