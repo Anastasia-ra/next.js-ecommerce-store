@@ -8,7 +8,7 @@ const headerStyle = css`
   display: flex;
   justify-content: space-between;
   font-family: 'Candara', 'Arial';
-  background-color: rgba(88, 125, 184, 0.3);
+  background-color: rgba(156, 173, 186, 0.7);
   /* opacity: 0.1; */
 `;
 
@@ -40,6 +40,7 @@ const logoStyle = css`
   /* width: auto; */
   width: 180px;
   cursor: pointer;
+  /* margin-left: 2vw; */
 `;
 
 const textStyle = css`
