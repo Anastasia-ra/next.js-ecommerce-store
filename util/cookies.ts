@@ -23,3 +23,7 @@ export type Cart = CartItem[];
 export function setParsedCookie(key: string, value: Cart) {
   Cookies.set(key, JSON.stringify(value));
 }
+
+export function deleteCookie(key: string) {
+  Cookies.remove(key);
+}
