@@ -12,12 +12,17 @@ const layoutStyle = css`
   background-position: center;
 `;
 
-const headingStyle = css`
+const description = css`
   font-family: 'Candara', 'Arial';
-  font-size: 4rem;
   color: white;
   position: relative;
-  top: 50vh;
+  top: 30vh;
+  h1 {
+    font-size: 4rem;
+  }
+  p {
+    font-size: 2rem;
+  }
 `;
 
 export default function Home() {
@@ -27,8 +32,12 @@ export default function Home() {
         <Head>
           <title>Homepage</title>
         </Head>
-        <div>
-          <h1 css={headingStyle}>Find your next adventure</h1>
+        <div css={description}>
+          <h1>Find your next adventure</h1>
+          <p>
+            From hold-your-breath experiences, to unscripted moments of joy;{' '}
+            <br /> our adventures create stories to tell for a lifetime.
+          </p>
         </div>
       </Layout>
     </div>
