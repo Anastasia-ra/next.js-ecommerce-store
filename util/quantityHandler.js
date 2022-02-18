@@ -1,7 +1,7 @@
 import { getParsedCookie, setParsedCookie } from './cookies.ts';
 
-export default function updateCount(cookie, id, increment) {
-  const cookieValue = getParsedCookie(cookie) || [];
+export default function updateCount(cookieKey, id, increment) {
+  const cookieValue = getParsedCookie(cookieKey) || [];
   const newCookie = cookieValue.map((cookieObject) => {
     if (cookieObject.id === id) {
       // Case: quantity incrementation
@@ -20,6 +20,6 @@ export default function updateCount(cookie, id, increment) {
       return cookieObject;
     }
   });
-  setParsedCookie(cookie, newCookie);
+  setParsedCookie(cookieKey, newCookie);
   return newCookie;
 }
