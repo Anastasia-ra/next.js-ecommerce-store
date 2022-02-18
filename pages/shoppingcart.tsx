@@ -166,9 +166,9 @@ export default function ShoppingCart(props: Props) {
 
   // Change quantity in cart
 
-  function quantityHandler(cookie: string, id, increment: boolean) {
-    const newCookie = updateCount(cookie, id, increment);
-    setCartList(newCookie);
+  function quantityHandler(cookieKey: string, id, increment: boolean) {
+    const updatedCookie = updateCount(cookieKey, id, increment);
+    setCartList(updatedCookie);
   }
 
   return (

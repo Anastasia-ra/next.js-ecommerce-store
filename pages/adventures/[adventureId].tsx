@@ -15,7 +15,6 @@ import { Adventure, getAdventureById } from '../../util/database';
 import { GetServerSidePropsContext } from 'next';
 import updateCount from '../../util/quantityHandler.js';
 import toggleCart from '../../util/toggleCart.js';
-// import ChangeQuantity from '../../components/ChangeQuantity';
 
 const gridStyle = css`
   display: grid;
@@ -132,8 +131,8 @@ export default function SingleAdventure(props: Props) {
 
   console.log('currentAdventureObject', currentAdventure);
 
-  function quantityHandler(cookie: string, increment: boolean) {
-    const newCookie = updateCount(cookie, props.adventure.id, increment);
+  function quantityHandler(cookieKey: string, increment: boolean) {
+    const newCookie = updateCount(cookieKey, props.adventure.id, increment);
     setCartList(newCookie);
   }
 

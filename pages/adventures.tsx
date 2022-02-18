@@ -81,24 +81,9 @@ export default function Adventures(props: Props) {
 
   const cookieCart: string = 'cart';
 
-  function toggleAdventureCart(id: number, cookie: string) {
-    // const cookieValue = getParsedCookie('cart') || [];
-    // const existIdOnArray = cookieValue.some((cookieObject: CartItem) => {
-    //   return cookieObject.id === id;
-    // });
-
-    // let newCookie;
-    // if (existIdOnArray) {
-    //   newCookie = cookieValue.filter(
-    //     (cookieObject: CartItem) => cookieObject.id !== id,
-    //   );
-    // } else {
-    //   newCookie = [...cookieValue, { id: id, quantity: 1 }];
-    // }
-    // console.log(newCookie);
-    const newCookie = toggleCart(id, cookie);
+  function toggleAdventureCart(id: number, cookieKey: string) {
+    const newCookie = toggleCart(id, cookieKey);
     setCartList(newCookie);
-    // setParsedCookie('cart', newCookie);
   }
 
   return (
