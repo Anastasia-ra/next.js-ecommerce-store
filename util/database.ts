@@ -1,6 +1,8 @@
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku.js';
 
+setPostgresDefaultsOnHeroku();
 config();
 
 declare module globalThis {
@@ -8,11 +10,22 @@ declare module globalThis {
 }
 
 function connectOneTimeToDatabase() {
-  if (!globalThis.postgresSqlClient) {
-    globalThis.postgresSqlClient = postgres();
-  }
-  const sql = globalThis.postgresSqlClient;
+  let sql;
 
+  if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
+    sql = postgres();
+
+    // Heroku needs SSL connections but
+    // has an "unauthorized" certificate
+    // https://devcenter.heroku.com/changelog-items/852
+
+    sql = postgres({ ssl: { rejectUnauthorized: false } });
+  } else {
+    if (!globalThis.postgresSqlClient) {
+      globalThis.postgresSqlClient = postgres();
+    }
+    sql = globalThis.postgresSqlClient;
+  }
   return sql;
 }
 
