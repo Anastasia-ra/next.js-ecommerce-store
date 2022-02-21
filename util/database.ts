@@ -1,6 +1,6 @@
 import { config } from 'dotenv-safe';
 import postgres from 'postgres';
-a;
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku.js';
 
 setPostgresDefaultsOnHeroku();
 config();
