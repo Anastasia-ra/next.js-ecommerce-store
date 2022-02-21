@@ -4,13 +4,7 @@ import { useState } from 'react';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { css } from '@emotion/react';
-// import adventuresDatabase from '../../util/database';
-import {
-  Cart,
-  CartItem,
-  // getParsedCookie,
-  // setParsedCookie,
-} from '../../util/cookies';
+import { Cart, CartItem } from '../../util/cookies';
 import { Adventure, getAdventureById } from '../../util/database';
 import { GetServerSidePropsContext } from 'next';
 import updateCount from '../../util/quantityHandler.js';
@@ -31,13 +25,9 @@ const flexStyle = css`
   width: 70vw;
   justify-content: space-around;
   font-family: 'Candara', 'Arial';
-  /* grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr; */
 `;
 
 const textStyle = css`
-  /* grid-column: 2 / 3;
-  grid-row: 1 / 2; */
   overflow-wrap: break-word;
   margin-bottom: 10vh;
 `;
@@ -47,10 +37,6 @@ const priceStyle = css`
 `;
 
 const buttonCartStyle = css`
-  /* grid-column: 2 / 3;
-  grid-row: 2 / 3;
-  justify-self: center;
-  align-self: center; */
   height: 30px;
   width: 130px;
   border-style: solid;
@@ -64,19 +50,11 @@ const buttonCartStyle = css`
 `;
 
 const buttonFlexStyle = css`
-  /* grid-column: 2 / 3;
-  grid-row: 2 / 3; */
   justify-self: start;
   align-self: center;
   display: flex;
   align-items: center;
   font-family: 'Candara', 'Arial';
-`;
-
-const imageStyle = css`
-  /* margin-top: 1rem; */
-  /* grid-column: 1 / 2;
-  grid-row: 1 / 3; */
 `;
 
 const descriptionStyle = css`
@@ -86,7 +64,6 @@ const descriptionStyle = css`
 `;
 
 const backLinkStyle = css`
-  // display: block;
   margin-bottom: 1rem;
   font-family: 'Candara', 'Arial';
   margin-left: 3vw;
@@ -169,20 +146,19 @@ export default function SingleAdventure(props: Props) {
       <Head>
         <title>{`${props.adventure.name} - ${props.adventure.duration} days`}</title>
       </Head>
-      <h1 css={headingStyle}>{`${props.adventure.name}`}</h1>
+      <h1 css={headingStyle}>{props.adventure.name}</h1>
       <div css={backLinkStyle}>
         <Link href="/adventures">
           <a>← Back to all adventures</a>
         </Link>
       </div>
       <div css={flexStyle}>
-        <div css={imageStyle}>
+        <div>
           <Image
             data-test-id="product-image"
             src={`/adventures-img/${props.adventure.id}.jpg`}
             width="380"
             height="380"
-            css={imageStyle}
           />{' '}
         </div>
         <div css={descriptionStyle}>
@@ -246,18 +222,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log('adventureId', adventureId);
   console.log('typeOf adventureId', typeof adventureId);
 
-  // const matchingAdventure = adventuresDatabase.find((adventure) => {
-  //   return adventure.id === adventureId;
-  // });
-
   const cartOnCookies = context.req.cookies.cart || '[]';
   const cart = JSON.parse(cartOnCookies);
-
-  // if (typeof adventureId === 'number') {
-  //   const adventure = await getAdventureById(adventureId);
-  // } else {
-  //   const adventure = undefined;
-  // }
 
   let adventure;
   typeof adventureId === 'string'
@@ -266,7 +232,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      // adventure: matchingAdventure,
       cart,
       adventure,
     },

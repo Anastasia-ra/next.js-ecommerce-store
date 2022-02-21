@@ -4,21 +4,10 @@ import Link from 'next/link';
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import {
-  Cart,
-  // CartItem,
-  // getParsedCookie,
-  // setParsedCookie,
-} from '../util/cookies';
-// import adventuresDatabase from '../util/database';
+import { Cart } from '../util/cookies';
 import { Adventure, getAdventures } from '../util/database';
 import { GetServerSidePropsContext } from 'next';
 import toggleCart from '../util/toggleCart';
-// import { ReactComponent as Background } from '/stacked-peaks-haikei.svg';
-
-const layoutStyle = css`
-  /* background-image: url(/stacked-peaks-haikei.png); */
-`;
 
 const headerStyle = css`
   font-family: 'Candara', 'Arial';
@@ -38,7 +27,6 @@ const flexStyle = css`
 `;
 
 const singleAdventureStyle = css`
-  // display: flex;
   margin: 0.5rem 0.3rem;
   cursor: pointer;
 `;
@@ -55,10 +43,6 @@ const imageStyle = css`
 
 const adventureNameStyle = css`
   margin: 0.5rem auto;
-
-  /* margin-left: auto;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem; */
 `;
 
 const adventureButtonStyle = css`
@@ -90,8 +74,8 @@ export default function Adventures(props: Props) {
   }
 
   return (
-    <div css={layoutStyle}>
-      <Layout css={layoutStyle}>
+    <div>
+      <Layout>
         <Head>
           <title>Adventures</title>
         </Head>
@@ -160,7 +144,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      // adventures: adventuresDatabase,
       cart,
       adventures,
     },

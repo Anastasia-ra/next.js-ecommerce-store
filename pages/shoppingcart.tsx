@@ -10,15 +10,10 @@ import {
   getParsedCookie,
   setParsedCookie,
 } from '../util/cookies';
-// import adventuresDatabase from '../util/database';
 import { Adventure, getAdventures } from '../util/database';
 import { GetServerSidePropsContext } from 'next';
 import updateCount from '../util/quantityHandler.js';
 import getTotalPrice from '../util/calculateCartSum.js';
-
-const layoutStyle = css`
-  /* background-image: url(/stacked-peaks-haikei.png); */
-`;
 
 const cartContentStyle = css`
   display: flex;
@@ -36,12 +31,10 @@ const cartItemStyle = css`
 
 const tableStyle = css`
   tr:nth-child(even) {
-    /* background-color: #faf9f5; */
   }
 `;
 
 const tableHeading = css`
-  /* margin: 10px 0; */
   height: 50px;
 `;
 
@@ -79,12 +72,10 @@ const removeButton = css`
   border-radius: 50%;
   cursor: pointer;
   padding: 4px 6px;
-  // width: auto;
   height: 20px;
   font-size: 1rem;
   letter-spacing: 0.018rem;
   line-height: 1.269rem;
-  // opacity: 0.2;
   margin-left: 10px;
   margin-top: auto;
   margin-bottom: auto;
@@ -103,7 +94,6 @@ const orderButton = css`
   margin: 0 100px;
   border-style: solid;
   border-width: thin;
-  /* border-radius: 5%; */
   background: none;
   cursor: pointer;
   :hover {
@@ -169,6 +159,7 @@ export default function ShoppingCart(props: Props) {
   function quantityHandler(cookieKey: string, id: number, increment: boolean) {
     const updatedCookie = updateCount(cookieKey, id, increment);
     setCartList(updatedCookie);
+    console.log(cartList);
   }
 
   // Checks if cart is empty
@@ -176,7 +167,7 @@ export default function ShoppingCart(props: Props) {
   console.log('isCardEmpty', isCardEmpty);
 
   return (
-    <div css={layoutStyle}>
+    <div>
       <Layout>
         <Head>
           <title>Shopping Cart</title>

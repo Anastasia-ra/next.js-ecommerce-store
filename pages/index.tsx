@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import { css } from '@emotion/react';
-// import backgroundImage from '../public/background-homepage2.jpg';
 
 const layoutStyle = css`
   position: absolute;

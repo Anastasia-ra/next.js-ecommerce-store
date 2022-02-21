@@ -22,8 +22,6 @@ const name = css`
   }
 `;
 
-const singleInputStyle = css``;
-
 const emailStyle = css`
   margin: 0 10px;
   input {
@@ -56,7 +54,6 @@ const cityStyle = css`
 `;
 
 const postalCodeStyle = css`
-  /* margin: 0 5px; */
   input {
     width: 100px;
   }
@@ -99,7 +96,6 @@ const submitButton = css`
   margin: 20px 140px;
   border-style: solid;
   border-width: thin;
-  /* border-radius: 5%; */
   background: none;
   cursor: pointer;
   :hover {

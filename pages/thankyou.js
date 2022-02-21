@@ -12,10 +12,6 @@ const contentStyle = css`
   font-family: 'Candara', 'Arial'; ;
 `;
 
-// const headingStyle = css`
-//   text-align: center;
-// `;
-
 export default function Thankyou() {
   return (
     <Layout>
