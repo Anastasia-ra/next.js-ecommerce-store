@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/babel-plugin": "^11.7.2",
     "@emotion/react": "^11.7.1",
+    "@stripe/stripe-js": "^1.23.0",
     "@types/expect-puppeteer": "^4.4.7",
     "@types/jest-environment-puppeteer": "^5.0.0",
     "@types/puppeteer": "^5.4.4",
@@ -25,7 +26,8 @@
     "puppeteer": "^13.3.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "sharp": "^0.30.0"
+    "sharp": "^0.30.0",
+    "stripe": "^8.203.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.17.0",
@@ -33,35 +35,36 @@
     "@types/dotenv-safe": "^8.1.2",
     "@types/jest": "^27.4.0",
     "@types/js-cookie": "^3.0.1",
-    "@types/node": "17.0.14",
+    "@types/node": "17.0.18",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.11",
-    "@typescript-eslint/eslint-plugin": "5.10.2",
-    "@typescript-eslint/parser": "5.10.2",
-    "@upleveled/eslint-config-upleveled": "2.4.2",
-    "@upleveled/eslint-plugin-upleveled": "2.1.0",
-    "eslint": "8.8.0",
+    "@typescript-eslint/eslint-plugin": "5.12.0",
+    "@typescript-eslint/parser": "5.12.0",
+    "@upleveled/eslint-config-upleveled": "2.4.8",
+    "@upleveled/eslint-plugin-upleveled": "2.1.2",
+    "eslint": "8.9.0",
     "eslint-config-next": "12.0.10",
     "eslint-config-react-app": "7.0.0",
     "eslint-import-resolver-typescript": "2.5.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-flowtype": "8.0.3",
     "eslint-plugin-import": "2.25.4",
-    "eslint-plugin-jest": "26.0.0",
+    "eslint-plugin-jest": "26.1.1",
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
     "eslint-plugin-security": "1.4.0",
     "eslint-plugin-sonarjs": "0.11.0",
     "eslint-plugin-testing-library": "5.0.5",
-    "eslint-plugin-unicorn": "40.1.0",
+    "eslint-plugin-unicorn": "41.0.0",
     "jest": "^27.5.1",
     "typescript": "4.5.5"
   },
   "resolutions": {
-    "@typescript-eslint/eslint-plugin": "5.10.1",
-    "@typescript-eslint/parser": "5.10.1",
+    "@typescript-eslint/eslint-plugin": "5.12.0",
+    "@typescript-eslint/parser": "5.12.0",
     "eslint-plugin-import": "2.25.4",
-    "eslint-plugin-react": "7.28.0"
+    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-jest": "26.1.1"
   }
 }
