@@ -274,7 +274,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      // adventures: adventuresDatabase,
       addedAdventures: cart,
       adventures: adventures,
     },
