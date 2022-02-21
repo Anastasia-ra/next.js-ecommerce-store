@@ -171,6 +171,7 @@ export default function ShoppingCart(props: Props) {
       <Layout>
         <Head>
           <title>Shopping Cart</title>
+          <meta name="description" content="Adventures shopping cart" />
         </Head>
         <div css={cartContentStyle}>
           <h1>Your next adventures </h1>

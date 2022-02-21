@@ -30,6 +30,7 @@ export default function Home() {
       <Layout>
         <Head>
           <title>Homepage</title>
+          <meta name="description" content="E-commerce store for adventures" />
         </Head>
         <div css={description}>
           <h1>Find your next adventure</h1>

@@ -78,6 +78,7 @@ export default function Adventures(props: Props) {
       <Layout>
         <Head>
           <title>Adventures</title>
+          <meta name="description" content="Amazing adventures" />
         </Head>
         <div css={textDescription}>
           <h1 css={headerStyle}>Choose your adventure</h1>

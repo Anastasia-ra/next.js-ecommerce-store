@@ -17,6 +17,7 @@ export default function Thankyou() {
     <Layout>
       <Head>
         <title>Thank you</title>
+        <meta name="description" content="Thank you for the order" />
       </Head>
       <div css={contentStyle}>
         {' '}

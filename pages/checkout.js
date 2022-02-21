@@ -134,6 +134,7 @@ export default function Checkout() {
       <div css={checkout}>
         <Head>
           <title>Checkout</title>
+          <meta name="description" content="Checkout" />
         </Head>
         <div>
           <h1>Checkout</h1>
