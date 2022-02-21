@@ -8,7 +8,7 @@ const headerStyle = css`
   display: flex;
   justify-content: space-between;
   font-family: 'Candara', 'Arial';
-  background-color: rgba(156, 173, 186, 0.7);
+  background-color: rgba(52 48 46 / 0.55);
   /* opacity: 0.1; */
 `;
 
@@ -85,11 +85,11 @@ export default function Header() {
           <a>Home</a>
         </Link>
         <Link href="/adventures">
-          <a>Adventures</a>
+          <a data-test-id="header-adventures-link">Adventures</a>
         </Link>
         <Link href="/shoppingcart">
           <a data-test-id="cart-count">
-            Shopping Cart ({isNaN(totalQuantity) ? '0' : totalQuantity})
+            Shopping Cart - {isNaN(totalQuantity) ? '0' : totalQuantity}
           </a>
         </Link>
       </div>

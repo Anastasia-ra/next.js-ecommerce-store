@@ -16,7 +16,7 @@ const description = css`
   font-family: 'Candara', 'Arial';
   color: white;
   position: relative;
-  top: 30vh;
+  top: 30px;
   h1 {
     font-size: 4rem;
   }

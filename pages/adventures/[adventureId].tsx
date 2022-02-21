@@ -16,17 +16,34 @@ import { GetServerSidePropsContext } from 'next';
 import updateCount from '../../util/quantityHandler.js';
 import toggleCart from '../../util/toggleCart.js';
 
-const gridStyle = css`
-  display: grid;
-  margin-right: 4rem;
-  margin-left: 4rem;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+const headingStyle = css`
+  font-family: 'Candara', 'Arial';
+  width: 50vw;
+  margin: 3vh auto;
+  text-align: center;
+`;
+
+const flexStyle = css`
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  height: 60vh;
+  width: 70vw;
+  justify-content: space-around;
+  font-family: 'Candara', 'Arial';
+  /* grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr; */
 `;
 
 const textStyle = css`
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
+  /* grid-column: 2 / 3;
+  grid-row: 1 / 2; */
+  overflow-wrap: break-word;
+  margin-bottom: 10vh;
+`;
+
+const priceStyle = css`
+  font-weight: bolder;
 `;
 
 const buttonCartStyle = css`
@@ -46,23 +63,33 @@ const buttonCartStyle = css`
   }
 `;
 
-const buttonGridStyle = css`
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
+const buttonFlexStyle = css`
+  /* grid-column: 2 / 3;
+  grid-row: 2 / 3; */
   justify-self: start;
   align-self: center;
   display: flex;
   align-items: center;
+  font-family: 'Candara', 'Arial';
 `;
 
 const imageStyle = css`
-  margin-top: 1rem;
-  grid-column: 1 / 2;
-  grid-row: 1 / 3;
+  /* margin-top: 1rem; */
+  /* grid-column: 1 / 2;
+  grid-row: 1 / 3; */
+`;
+
+const descriptionStyle = css`
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
 `;
 
 const backLinkStyle = css`
   // display: block;
+  margin-bottom: 1rem;
+  font-family: 'Candara', 'Arial';
+  margin-left: 3vw;
 `;
 
 const buttonsWrapperStyle = css`
@@ -73,6 +100,7 @@ const buttonsWrapperStyle = css`
   margin: 10px;
   height: 30px;
   border-radius: 15%;
+  font-family: 'Candara', 'Arial';
 `;
 
 const buttonMinusStyle = css`
@@ -141,13 +169,13 @@ export default function SingleAdventure(props: Props) {
       <Head>
         <title>{`${props.adventure.name} - ${props.adventure.duration} days`}</title>
       </Head>
-      <h1>{`${props.adventure.name}`}</h1>
+      <h1 css={headingStyle}>{`${props.adventure.name}`}</h1>
       <div css={backLinkStyle}>
         <Link href="/adventures">
-          <a>Back to all adventures</a>
+          <a>← Back to all adventures</a>
         </Link>
       </div>
-      <div css={gridStyle}>
+      <div css={flexStyle}>
         <div css={imageStyle}>
           <Image
             data-test-id="product-image"
@@ -157,44 +185,54 @@ export default function SingleAdventure(props: Props) {
             css={imageStyle}
           />{' '}
         </div>
-        <div css={textStyle}>
-          <div data-test-id="product-price">
-            {' '}
-            Price: {props.adventure.price}
-            <br />
-            {props.adventure.description}
+        <div css={descriptionStyle}>
+          <div css={textStyle}>
+            <div data-test-id="product-price">
+              {' '}
+              {props.adventure.description}
+              <br />
+              <br />
+              All inclusive package for only{' '}
+              <span css={priceStyle}>{props.adventure.price}€</span>
+              {}
+            </div>
           </div>
-        </div>
-        <div css={buttonGridStyle}>
-          <button
-            css={buttonCartStyle}
-            data-test-id="product-add-to-cart"
-            onClick={() => toggleAdventureCart(props.adventure.id, cookieCart)}
-          >
-            {adventureIsAdded ? 'Remove from cart' : 'Add to cart'}
-          </button>
-          <div>
-            {currentAdventure && (
-              <div data-test-id="product-quantity" css={buttonsWrapperStyle}>
-                <button
-                  css={buttonMinusStyle}
-                  onClick={() => {
-                    quantityHandler(cookieCart, false);
-                  }}
-                >
-                  -{' '}
-                </button>
-                <span css={currentQuantityStyle}>
-                  {currentAdventure.quantity}
-                </span>
-                <button
-                  css={buttonPlusStyle}
-                  onClick={() => quantityHandler(cookieCart, true)}
-                >
-                  +{' '}
-                </button>
-              </div>
-            )}
+          <div css={buttonFlexStyle}>
+            <button
+              css={buttonCartStyle}
+              data-test-id="product-add-to-cart"
+              // adventureIsAdded ? data-test-id="product-add-to-cart" : data-test-id="product-remove-from-cart"
+              onClick={() =>
+                toggleAdventureCart(props.adventure.id, cookieCart)
+              }
+            >
+              {adventureIsAdded ? 'Remove from cart' : 'Add to cart'}
+            </button>
+            <div>
+              {currentAdventure && (
+                <div data-test-id="product-quantity" css={buttonsWrapperStyle}>
+                  <button
+                    css={buttonMinusStyle}
+                    data-test-id="increase-quantity"
+                    onClick={() => {
+                      quantityHandler(cookieCart, false);
+                    }}
+                  >
+                    -{' '}
+                  </button>
+                  <span css={currentQuantityStyle}>
+                    {currentAdventure.quantity}
+                  </span>
+                  <button
+                    css={buttonPlusStyle}
+                    data-test-id="decrease-quantity"
+                    onClick={() => quantityHandler(cookieCart, true)}
+                  >
+                    +{' '}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

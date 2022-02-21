@@ -166,10 +166,14 @@ export default function ShoppingCart(props: Props) {
 
   // Change quantity in cart
 
-  function quantityHandler(cookieKey: string, id, increment: boolean) {
+  function quantityHandler(cookieKey: string, id: number, increment: boolean) {
     const updatedCookie = updateCount(cookieKey, id, increment);
     setCartList(updatedCookie);
   }
+
+  // Checks if cart is empty
+  const isCardEmpty: boolean = newCookie.length === 0;
+  console.log('isCardEmpty', isCardEmpty);
 
   return (
     <div css={layoutStyle}>
@@ -255,7 +259,11 @@ export default function ShoppingCart(props: Props) {
 
             <Link href="checkout">
               <a>
-                <button css={orderButton} data-test-id="cart-checkout">
+                <button
+                  css={orderButton}
+                  data-test-id="cart-checkout"
+                  disabled={isCardEmpty}
+                >
                   Order your adventures
                 </button>
               </a>

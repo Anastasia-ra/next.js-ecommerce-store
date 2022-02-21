@@ -6,9 +6,9 @@ import { useState } from 'react';
 import Layout from '../components/Layout';
 import {
   Cart,
-  CartItem,
-  getParsedCookie,
-  setParsedCookie,
+  // CartItem,
+  // getParsedCookie,
+  // setParsedCookie,
 } from '../util/cookies';
 // import adventuresDatabase from '../util/database';
 import { Adventure, getAdventures } from '../util/database';
@@ -64,11 +64,14 @@ const adventureNameStyle = css`
 const adventureButtonStyle = css`
   margin: 0.5rem auto;
   border-radius: 7%;
-  background: rgba(88, 125, 184, 0.3);
+  background: rgba(52 48 46 / 0.55);
   border: none;
   padding: 5px 8px;
   cursor: pointer;
   font-family: 'Candara', 'Arial';
+  color: white;
+  font-weight: bolder;
+  font-size: 0.9rem;
 `;
 
 type Props = {
