@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PGHOST: localhost
-      PGPORT: 5432
       PGDATABASE: next_js_example_jan_2022
       PGUSERNAME: next_js_example_jan_2022
       PGPASSWORD: next_js_example_jan_2022
