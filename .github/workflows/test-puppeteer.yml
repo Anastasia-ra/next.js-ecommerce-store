@@ -38,6 +38,6 @@ jobs:
       # Run the migrations
       - run: yarn migrate up
       # Build the Next.js application
-      - run: yarn build
+      - run: yarn start
       # Run the Jest unit tests
       - run: yarn jest --config integration/jest.config.mjs
