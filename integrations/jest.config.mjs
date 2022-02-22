@@ -1,6 +1,6 @@
 const config = {
   preset: 'jest-puppeteer',
   maxWorkers: 2,
-  testTimeout: 1000000,
+  testTimeout: 100000,
 };
 export default config;
