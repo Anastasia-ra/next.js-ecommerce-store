@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PGHOST: localhost
-      PGDATABASE: next_js_example_jan_2022
-      PGUSERNAME: next_js_example_jan_2022
-      PGPASSWORD: next_js_example_jan_2022
+      PGDATABASE: next_js_ecommerce_store
+      PGUSERNAME: next_js_ecommerce_store
+      PGPASSWORD: next_js_ecommerce_store
     steps:
       - name: Start preinstalled PostgreSQL on Ubuntu
         run: |
