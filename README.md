@@ -5,6 +5,7 @@ Unique Adventures is a full-stack fictional adventure shop.
 ## Technologies used
 
  - Next.js
+ - TypeScript
  - Cookies
  - CSS-in-JS (Emotion) 
  - PostgreSQL 
