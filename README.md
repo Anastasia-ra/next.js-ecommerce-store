@@ -8,8 +8,17 @@ Unique Adventures is a full-stack fictional adventure shop.
  - TypeScript
  - Cookies
  - CSS-in-JS (Emotion) 
- - PostgreSQL 
+ - PostgreSQL (to store product information)
  - Unit tests & E2E tests with Jest and Puppeteer
+
+## Functionalities
+
+- Adventures pages where all advenutres are displayed
+- Header displaying the current number of items in the cart
+- Page for each single adventure
+- Possibility to add a product to cart from the page with all products or from the single product page
+- Shopping cart showing the total price of the products and the possibilty to change the quantity
+- Checkout page to enter shipping information
 
 ## Screenshots
 
