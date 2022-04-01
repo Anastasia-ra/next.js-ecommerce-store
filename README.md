@@ -9,7 +9,7 @@ Unique Adventures is a full-stack fictional adventure shop.
  - Cookies
  - CSS-in-JS (Emotion) 
  - PostgreSQL (to store product information)
- - Unit tests & E2E tests with Jest and Puppeteer
+ - Unit tests & E2E tests with Jest and Puppeteer 
 
 ## Functionalities
 
